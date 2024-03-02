@@ -31,3 +31,31 @@ body {
     flex: 1;
     text-align: center;
 }
+
+/* CSS 파일 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+}
+
+.header .title {
+    font-size: 24px;
+}
+
+.header .buttons {
+    display: flex;
+    align-items: center;
+}
+
+.header .buttons button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
