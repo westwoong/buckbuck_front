@@ -9,7 +9,7 @@
 <div class="header">
     <div class="title">BuckBuck</div>
     <div class="buttons">
-        <button>로그인</button>
+        <button id="loginButton">로그인</button>
         <button>회원가입</button>
     </div>
 </div>
@@ -26,7 +26,11 @@
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+    document.getElementById('loginButton').addEventListener('click', function() {
+        window.location.href = 'login.html';
+    });
+</script>
 
 </body>
 </html>
