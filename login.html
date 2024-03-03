@@ -46,13 +46,13 @@
         })
             .then(response => {
                 if (response.ok) {
-                    return response.json();
+                    return response.text();
                 } else {
                     throw new Error('로그인에 실패했습니다.');
                 }
             })
             .then(data => {
-                localStorage.setItem('token', JSON.stringify(data)); // 토큰 값을 문자열로 변환하여 저장
+                localStorage.setItem('token', data);
                 window.location.href = 'index.html';
             })
             .catch(error => {
