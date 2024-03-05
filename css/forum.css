@@ -30,11 +30,13 @@
     margin: 0 auto;
 }
 
-.forum-header, .forum-post {
+.forum-header {
     display: flex;
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    background-color: #f8f8f8;
+    font-weight: bold;
 }
 
 .forum-header {
@@ -46,7 +48,20 @@
     flex: 5;
 }
 
-.writer, .date, .views, .likes {
+.writer, .date {
     flex: 1;
     text-align: center;
 }
+
+
+
+
+
+/*.title {*/
+/*    flex: 5;*/
+/*}*/
+
+/*.writer, .date, .views, .likes {*/
+/*    flex: 1;*/
+/*    text-align: center;*/
+/*}*/

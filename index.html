@@ -36,10 +36,10 @@
                         const createdDate = `${createdAt.getFullYear()}.${(createdAt.getMonth() + 1).toString().padStart(2, '0')}.${createdAt.getDate().toString().padStart(2, '0')}`;
                         const createdTime = `${createdAt.getHours().toString().padStart(2, '0')}:${createdAt.getMinutes().toString().padStart(2, '0')}`;
                         postItem.innerHTML = `
-                <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
-                <div class="writer">${post.nickName}</div>
-                <div class="date">${createdDate}  ${createdTime}</div>
-            `;
+                            <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
+                            <div class="writer">${post.nickName}</div>
+                            <div class="date">${createdDate}  ${createdTime}</div>
+                        `;
                         postList.appendChild(postItem);
                     });
                 })
