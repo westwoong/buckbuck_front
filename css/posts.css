@@ -1,0 +1,34 @@
+.forum-post {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.forum-post div {
+    padding: 5px 0;
+}
+
+.forum-post .title {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.forum-post .writer {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.forum-post .date {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.forum-post .views {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.forum-post .likes {
+    flex: 1;
+}

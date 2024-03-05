@@ -42,10 +42,6 @@
     font-weight: bold;
 }
 
-.forum-post:hover {
-    background-color: #f0f0f0;
-}
-
 .title {
     flex: 5;
 }
@@ -54,5 +50,3 @@
     flex: 1;
     text-align: center;
 }
-
----
