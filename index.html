@@ -10,7 +10,8 @@
     <div class="title">BuckBuck</div>
     <div class="buttons">
         <button id="loginButton">로그인</button>
-        <button>회원가입</button>
+        <button id="signupButton">회원가입</button>
+        <button id="logoutButton" style="display: none;">로그아웃</button>
     </div>
 </div>
 <div class="forum">
@@ -27,8 +28,33 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            // 토큰이 있으면 로그아웃 표시
+            document.getElementById('logoutButton').style.display = 'block';
+            document.getElementById('loginButton').style.display = 'none';
+        } else {
+            // 토큰이 없으면 로그인 표시
+            document.getElementById('logoutButton').style.display = 'none';
+            document.getElementById('loginButton').style.display = 'block';
+        }
+    });
+
+    // 로그아웃
+    document.getElementById('logoutButton').addEventListener('click', function() {
+        localStorage.removeItem('token');
+        alert('로그아웃 되었습니다')
+        location.reload();
+    });
+
     document.getElementById('loginButton').addEventListener('click', function() {
         window.location.href = 'login.html';
+    });
+
+    document.getElementById('signupButton').addEventListener('click', function() {
+        window.location.href = 'signup.html';
     });
 </script>
 

@@ -48,7 +48,7 @@
                 if (response.ok) {
                     return response.text();
                 } else {
-                    throw new Error('로그인에 실패했습니다.');
+                    throw new Error('로그인에 실패했습니다.\n 아이디나 비밀번호를 확인해주세요');
                 }
             })
             .then(data => {
