@@ -1,0 +1,58 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+}
+
+.header .title {
+    font-size: 24px;
+}
+
+.header .buttons {
+    display: flex;
+    align-items: center;
+}
+
+.header .buttons button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.forum {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.forum-header, .forum-post {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.forum-header {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+
+.forum-post:hover {
+    background-color: #f0f0f0;
+}
+
+.title {
+    flex: 5;
+}
+
+.writer, .date, .views, .likes {
+    flex: 1;
+    text-align: center;
+}
+
+---
