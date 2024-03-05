@@ -23,12 +23,31 @@
         <div class="likes">추천</div>
     </div>
     <div id="postList" class="forum-post">
-        <!-- 게시글 목록은 JavaScript로 동적으로 추가될 예정 -->
+        <script>
+            fetch('http://localhost:3000/posts?page=1')
+                .then(response => response.json())
+                .then(data => {
+                    const postList = document.getElementById('postList');
+                    data.posts.forEach(post => {
+                        const postItem = document.createElement('div');
+                        postItem.classList.add('forum-post');
+                        postItem.innerHTML = `
+                <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
+                <div class="writer">${post.nickName}</div>
+                <div class="date">${new Date(post.createdAt).toLocaleDateString()}</div>
+                <div class="views">-</div>
+                <div class="likes">-</div>
+            `;
+                        postList.appendChild(postItem);
+                    });
+                })
+                .catch(error => console.error('Error fetching posts:', error));
+        </script>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const token = localStorage.getItem('token');
 
         if (token) {
@@ -43,17 +62,17 @@
     });
 
     // 로그아웃
-    document.getElementById('logoutButton').addEventListener('click', function() {
+    document.getElementById('logoutButton').addEventListener('click', function () {
         localStorage.removeItem('token');
         alert('로그아웃 되었습니다')
         location.reload();
     });
 
-    document.getElementById('loginButton').addEventListener('click', function() {
+    document.getElementById('loginButton').addEventListener('click', function () {
         window.location.href = 'login.html';
     });
 
-    document.getElementById('signupButton').addEventListener('click', function() {
+    document.getElementById('signupButton').addEventListener('click', function () {
         window.location.href = 'signup.html';
     });
 </script>

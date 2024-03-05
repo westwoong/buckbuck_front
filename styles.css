@@ -32,7 +32,6 @@ body {
     text-align: center;
 }
 
-/* CSS 파일 */
 .header {
     display: flex;
     justify-content: space-between;
@@ -61,7 +60,6 @@ body {
 }
 
 body {
-    font-family: Arial, sans-serif;
     text-align: center;
     background-color: #f0f0f0;
     padding-top: 50px;
@@ -134,9 +132,10 @@ form button:hover {
 .btn_section a:hover {
     color: #01535f;
 }
-/* 스타일을 변경하여 링크를 기본 텍스트와 비슷하게 만듭니다. */
- a {
-     text-decoration: none; /* 밑줄 제거 */
-     color: inherit; /* 링크 색을 부모 요소의 색과 동일하게 설정 */
-     cursor: pointer; /* 커서 모양 변경 */
- }
+
+/* 추가된 스타일 */
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}

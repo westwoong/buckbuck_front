@@ -5,12 +5,12 @@ window.onload = function() {
     fetch(`http://localhost:3000/posts/${postId}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('title').innerText = data.title;
-            document.getElementById('content').innerText = data.content;
-            document.getElementById('cost').innerText = 'Cost: ' + data.cost;
-            document.getElementById('level').innerText = 'Level: ' + data.level;
-            document.getElementById('createdAt').innerText = 'Created At: ' + new Date(data.createdAt).toLocaleString();
-            document.getElementById('updatedAt').innerText = 'Updated At: ' + new Date(data.updatedAt).toLocaleString();
+            const post = data.post;
+            document.getElementById('title').innerText = post.title;
+            document.getElementById('content').innerText = post.content;
+            document.getElementById('cost').innerText = 'Cost: ' + post.cost;
+            document.getElementById('level').innerText = 'Level: ' + post.level;
+            document.getElementById('createdAt').innerText = 'Created At: ' + new Date(post.createdAt).toLocaleString();
         })
         .catch(error => console.error('Error fetching post details:', error));
 }
