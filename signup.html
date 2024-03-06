@@ -4,26 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/forum.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        form {
+            width: 300px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: calc(100% - 22px);
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        input:invalid + #error-message {
+            display: block;
+        }
+
+        input:valid + #error-message {
+            display: none;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-<h1>회원가입</h1>
+<header>
+    <h3><a href="index.html">BuckBuck</a></h3>
+</header>
+<div id="error-message" style="color: red;"></div>
 <form id="signup-form">
     <label for="account">계정:</label>
-    <input type="text" id="account" name="account" required><br>
+    <input type="text" id="account" name="account" pattern="[a-zA-Z0-9]{5,20}" required>
+
     <label for="password">비밀번호:</label>
-    <input type="password" id="password" name="password" required><br>
+    <input type="password" id="password" name="password" pattern=".{8,20}" required>
+
     <label for="name">이름:</label>
-    <input type="text" id="name" name="name" required><br>
+    <input type="text" id="name" name="name" pattern="[가-힣]{2,10}" required>
+
     <label for="email">이메일:</label>
-    <input type="email" id="email" name="email" required><br>
+    <input type="email" id="email" name="email" required>
+
     <label for="phoneNumber">전화번호:</label>
-    <input type="text" id="phoneNumber" name="phoneNumber" required><br>
+    <input type="text" id="phoneNumber" name="phoneNumber" pattern="[0-9]{11}" required>
+
     <label for="nickName">닉네임:</label>
-    <input type="text" id="nickName" name="nickName" required><br>
+    <input type="text" id="nickName" name="nickName" pattern="[a-zA-Z0-9가-힣]{2,10}" required>
+
     <button type="submit">가입하기</button>
 </form>
-
-<div id="error-message" style="color: red;"></div>
+<br>
 
 <script>
     document.getElementById('signup-form').addEventListener('submit', async function(event) {
@@ -48,7 +112,9 @@
                 alert('가입이 완료되었습니다.');
                 window.location.href = 'login.html';
             } else if (!response.ok) {
-                throw new Error('회원가입에 실패했습니다.');
+                const responseData = await response.json();
+                const errorMessage = responseData.message;
+                throw new Error(errorMessage);
             }
         } catch (error) {
             document.getElementById('error-message').innerText = error.message;
