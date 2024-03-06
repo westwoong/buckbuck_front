@@ -1,20 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BuckBuck</title>
+    <title>Post Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<div id="postDetail">
-    <h1 id="title"></h1>
-    <p id="content"></p>
-    <p id="cost"></p>
-    <p id="level"></p>
-    <p id="createdAt"></p>
-    <p id="updatedAt"></p>
+
+<body class="bg-gray-100 dark:bg-gray-800">
+<div class="px-4 py-6 md:px-6 lg:py-12">
+    <div class="space-y-4">
+        <div class="space-y-2">
+            <h1 id="title" class="text-3xl font-bold tracking-tight"></h1>
+            <p id="postDate" class="text-gray-500 dark:text-gray-400"></p>
+        </div>
+        <div id="content" class="prose prose-gray max-w-none not-italic"></div>
+        <div class="space-y-4 border-t pt-4">
+            <div class="bg-white rounded-lg p-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-base font-semibold">의뢰금액</h3>
+                        <p id="cost" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold">의뢰 난이도</h3>
+                        <p id="level" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                    </div>
+                    <div class="col-span-2">
+                        <h3 class="text-base font-semibold">작성일</h3>
+                        <p id="createdAt" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                    </div>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold tracking-tight">댓글 목록</h2>
+            <div id="comments" class="space-y-4">
+                <!-- Comments will be dynamically added here -->
+            </div>
+        </div>
+    </div>
 </div>
 
-<script src="post_detail_script.js"></script>
+<script>
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        fetch(`http://localhost:3000/posts/${postId}`)
+            .then(response => response.json())
+            .then(data => {
+                const postData = data.post;
+
+                // Fill in post details
+                document.getElementById('title').innerText = postData.title;
+
+                const createdAt = new Date(postData.createdAt);
+
+                document.getElementById('content').innerHTML = '<p>' + postData.content + '</p>';
+                document.getElementById('cost').innerText = postData.cost;
+                document.getElementById('level').innerText = postData.level;
+                document.getElementById('createdAt').innerText = formatDate(createdAt);
+
+                // Fill in comments
+                const commentsContainer = document.getElementById('comments');
+                postData.comments.forEach(comment => {
+                    const commentDiv = document.createElement('div');
+                    commentDiv.classList.add('bg-white', 'rounded-lg', 'p-4', 'flex', 'flex-col', 'space-y-2');
+
+                    const commentContent = document.createElement('div');
+                    const username = document.createElement('h3');
+                    username.classList.add('text-lg', 'font-semibold');
+                    username.innerText = comment.nickName;
+                    const userComment = document.createElement('p');
+                    userComment.classList.add('text-sm', 'text-gray-500', 'dark:text-gray-400');
+                    userComment.innerText = comment.content;
+
+                    const proposalCost = document.createElement('span');
+                    proposalCost.classList.add('text-sm', 'font-semibold', 'text-gray-500');
+                    proposalCost.innerText = ' | 제안 금액: ' + comment.proposalCost;
+
+                    const createdAt = new Date(comment.createdAt);
+                    const createdDate = formatDate(createdAt);
+                    const createdTime = formatTime(createdAt);
+                    const commentTime = document.createElement('span');
+                    commentTime.classList.add('text-sm', 'text-gray-500', 'dark:text-gray-400');
+                    commentTime.innerText = createdDate + ' ' + createdTime;
+
+                    commentContent.appendChild(username);
+                    commentContent.appendChild(userComment);
+                    commentContent.appendChild(proposalCost);
+
+                    commentDiv.appendChild(commentContent);
+                    commentDiv.appendChild(commentTime);
+
+                    commentsContainer.appendChild(commentDiv);
+                });
+            })
+            .catch(error => alert('게시글을 불러오지 못했습니다.'));
+    }
+
+    function formatDate(date) {
+        return `${date.getFullYear()}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getDate().toString().padStart(2, '0')}`;
+    }
+
+    function formatTime(date) {
+        return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+</script>
 </body>
+
 </html>
