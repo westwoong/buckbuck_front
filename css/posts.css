@@ -3,13 +3,25 @@
     border-bottom: 1px solid #ccc;
 }
 
-.forum-post .title,
 .forum-post .writer,
 .forum-post .date {
     display: inline-block; /* 인라인 블록 요소로 변경 */
-    width: calc(33.33% - 20px); /* 전체 너비의 1/3로 설정하고 패딩을 제외한 너비를 계산 */
+    width: calc(22.33% - 20px); /* 전체 너비의 1/3로 설정하고 패딩을 제외한 너비를 계산 */
     text-align: center;
     padding: 1px; /* 각 열의 좌우 패딩 추가 */
+}
+
+.forum-post .title {
+    display: inline-block; /* 인라인 블록 요소로 변경 */
+    width: calc(55.33% - 20px); /* 전체 너비의 1/3로 설정하고 패딩을 제외한 너비를 계산 */
+    text-align: center;
+    padding: 1px; /* 각 열의 좌우 패딩 추가 */
+}
+
+.forum-post .id {
+    display: inline-block; /* 인라인 블록 요소로 변경 */
+    width: 20px; /* 전체 너비의 1/3로 설정하고 패딩을 제외한 너비를 계산 */
+    text-align: left;
 }
 
 .forum-post .title {

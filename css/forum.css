@@ -45,23 +45,11 @@
 }
 
 .title {
-    flex: 5;
+    flex: 3;
 }
 
 .writer, .date {
-    flex: 1;
+    flex: 1.1;
     text-align: center;
 }
 
-
-
-
-
-/*.title {*/
-/*    flex: 5;*/
-/*}*/
-
-/*.writer, .date, .views, .likes {*/
-/*    flex: 1;*/
-/*    text-align: center;*/
-/*}*/
