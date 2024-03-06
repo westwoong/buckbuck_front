@@ -2,9 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>BuckBuck</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
 </head>
 <body>
+<h1>회원가입</h1>
+<form id="signup-form">
+    <label for="account">계정:</label>
+    <input type="text" id="account" name="account" required><br>
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password" required><br>
+    <label for="name">이름:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="email">이메일:</label>
+    <input type="email" id="email" name="email" required><br>
+    <label for="phoneNumber">전화번호:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" required><br>
+    <label for="nickName">닉네임:</label>
+    <input type="text" id="nickName" name="nickName" required><br>
+    <button type="submit">가입하기</button>
+</form>
 
+<div id="error-message" style="color: red;"></div>
+
+<script>
+    document.getElementById('signup-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const requestData = {};
+        formData.forEach((value, key) => {
+            requestData[key] = value;
+        });
+
+        try {
+            const response = await fetch('http://localhost:3000/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            if (response.status === 201) {
+                alert('가입이 완료되었습니다.');
+                window.location.href = 'login.html';
+            } else if (!response.ok) {
+                throw new Error('회원가입에 실패했습니다.');
+            }
+        } catch (error) {
+            document.getElementById('error-message').innerText = error.message;
+        }
+    });
+</script>
 </body>
 </html>
