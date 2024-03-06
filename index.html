@@ -63,7 +63,37 @@
             document.getElementById('logoutButton').style.display = 'none';
             document.getElementById('loginButton').style.display = 'block';
         }
+
+        // 게시글 목록 가져오기
+        getPosts(1); // 첫 번째 페이지를 가져옴
     });
+
+    function getPosts(page) {
+        fetch(`http://localhost:3000/posts?page=${page}`)
+            .then(response => response.json())
+            .then(data => {
+                const postList = document.getElementById('postList');
+                // 내림차순으로 정렬
+                data.posts.sort((a, b) => b.id - a.id);
+                postList.innerHTML = ''; // 이전 데이터를 지움
+                data.posts.forEach(post => {
+                    const postItem = document.createElement('div');
+                    postItem.classList.add('forum-post');
+                    const createdAt = new Date(post.createdAt);
+                    const createdDate = `${createdAt.getFullYear()}.${(createdAt.getMonth() + 1).toString().padStart(2, '0')}.${createdAt.getDate().toString().padStart(2, '0')}`;
+                    const createdTime = `${createdAt.getHours().toString().padStart(2, '0')}:${createdAt.getMinutes().toString().padStart(2, '0')}`;
+                    postItem.innerHTML = `
+                    <div class="id">${post.id}</div>
+                    <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
+                    <div class="writer">${post.nickName}</div>
+                    <div class="date">${createdDate}  ${createdTime}</div>
+                `;
+                    postList.appendChild(postItem);
+                });
+            })
+            .catch(error => alert('게시글을 불러오지 못했습니다.'));
+    }
+
 
     // 로그아웃
     document.getElementById('logoutButton').addEventListener('click', function () {
