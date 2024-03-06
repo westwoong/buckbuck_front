@@ -44,6 +44,10 @@
     font-weight: bold;
 }
 
+.forum-header .id {
+    width: 3.5%;
+}
+
 .title {
     flex: 3;
 }
