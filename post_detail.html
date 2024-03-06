@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<div class="header">
-    <div class="title"><a href="index.html">BuckBuck</a></div>
-    <div class="buttons">
-        <button id="loginButton">로그인</button>
-        <button id="signupButton">회원가입</button>
-        <button id="logoutButton" style="display: none;">로그아웃</button>
-    </div>
-    <link rel="stylesheet" href="/css/forum.css">
-</div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,18 +25,41 @@
         #content {
             max-width: 100%; /* Adjust as needed */
         }
+
+        .content-box {
+            background-color: #ffffff; /* 하얀색 배경색 */
+            border: 1px solid #e5e7eb; /* 테두리 */
+            border-radius: 8px; /* 둥근 테두리 */
+            padding: 30px; /* 내부 여백 */
+            max-height: 800px; /* 최대 높이 */
+            overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
+        }
     </style>
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-800">
+<div class="header">
+    <div class="title"><a href="index.html">BuckBuck</a></div>
+    <div class="buttons">
+        <button id="loginButton">로그인</button>
+        <button id="signupButton">회원가입</button>
+        <button id="logoutButton" style="display: none;">로그아웃</button>
+    </div>
+    <link rel="stylesheet" href="/css/forum.css">
+</div>
 <div class="px-4 py-6 md:px-6 lg:py-12">
     <div class="space-y-4">
-        <div class="space-y-2">
-            <h1 id="title" class="text-3xl font-bold tracking-tight"></h1>
-            <p id="postDate" class="text-gray-500 dark:text-gray-400"></p>
+        <div class="space-y-2 flex justify-between items-center">
+            <div>
+                <h1 id="title" class="text-3xl font-bold tracking-tight"></h1>
+                <p id="postDate" class="text-gray-500 dark:text-gray-400"></p>
+            </div>
+            <div>
+                <p id="createdAt" class="text-sm text-gray-500 dark:text-gray-400"></p>
+            </div>
         </div>
         <div class="title-content-divider"></div><!-- Add divider between title and content -->
-        <div id="content" class="prose prose-gray max-w-none not-italic"></div>
+        <div id="content" class="prose prose-gray max-w-none not-italic content-box"></div>
         <div class="section-divider"></div><!-- Add divider between title and details -->
         <div class="bg-white rounded-lg p-4">
             <div class="grid grid-cols-2 gap-4">
@@ -58,7 +73,7 @@
                 </div>
                 <div class="col-span-2">
                     <h3 class="text-base font-semibold">작성일</h3>
-                    <p id="createdAt" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                    <p id="createdAtDetails" class="text-sm text-gray-500 dark:text-gray-400"></p>
                 </div>
             </div>
         </div>
@@ -88,6 +103,7 @@
                 document.getElementById('cost').innerText = postData.cost;
                 document.getElementById('level').innerText = postData.level;
                 document.getElementById('createdAt').innerText = formatDate(createdAt);
+                document.getElementById('createdAtDetails').innerText = formatDate(createdAt);
 
                 // Fill in comments
                 const commentsContainer = document.getElementById('comments');
@@ -165,4 +181,5 @@
     });
 </script>
 </body>
+
 </html>
