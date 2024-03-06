@@ -1,11 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<div class="header">
+    <div class="title"><a href="index.html">BuckBuck</a></div>
+    <div class="buttons">
+        <button id="loginButton">로그인</button>
+        <button id="signupButton">회원가입</button>
+        <button id="logoutButton" style="display: none;">로그아웃</button>
+    </div>
+    <link rel="stylesheet" href="/css/forum.css">
+</div>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Details</title>
+    <title>BuckBuck</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Add subtle border between title and content */
+        .title-content-divider,
+        .section-divider {
+            border-top: 1px solid rgba(0, 0, 0, 0.1); /* Subtle gray border */
+            margin-top: 1.5rem; /* Adjust margin for spacing */
+        }
+
+        /* Optional: Add a shadow effect for better visual separation */
+        .title-content-divider,
+        .section-divider {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+            margin-top: 2rem; /* Adjust margin for spacing */
+        }
+
+        /* Adjust width of content area */
+        #content {
+            max-width: 100%; /* Adjust as needed */
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 dark:bg-gray-800">
@@ -15,28 +43,28 @@
             <h1 id="title" class="text-3xl font-bold tracking-tight"></h1>
             <p id="postDate" class="text-gray-500 dark:text-gray-400"></p>
         </div>
+        <div class="title-content-divider"></div><!-- Add divider between title and content -->
         <div id="content" class="prose prose-gray max-w-none not-italic"></div>
-        <div class="space-y-4 border-t pt-4">
-            <div class="bg-white rounded-lg p-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <h3 class="text-base font-semibold">의뢰금액</h3>
-                        <p id="cost" class="text-sm text-gray-500 dark:text-gray-400"></p>
-                    </div>
-                    <div>
-                        <h3 class="text-base font-semibold">의뢰 난이도</h3>
-                        <p id="level" class="text-sm text-gray-500 dark:text-gray-400"></p>
-                    </div>
-                    <div class="col-span-2">
-                        <h3 class="text-base font-semibold">작성일</h3>
-                        <p id="createdAt" class="text-sm text-gray-500 dark:text-gray-400"></p>
-                    </div>
+        <div class="section-divider"></div><!-- Add divider between title and details -->
+        <div class="bg-white rounded-lg p-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <h3 class="text-base font-semibold">의뢰금액</h3>
+                    <p id="cost" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                </div>
+                <div>
+                    <h3 class="text-base font-semibold">의뢰 난이도</h3>
+                    <p id="level" class="text-sm text-gray-500 dark:text-gray-400"></p>
+                </div>
+                <div class="col-span-2">
+                    <h3 class="text-base font-semibold">작성일</h3>
+                    <p id="createdAt" class="text-sm text-gray-500 dark:text-gray-400"></p>
                 </div>
             </div>
-            <h2 class="text-2xl font-bold tracking-tight">댓글 목록</h2>
-            <div id="comments" class="space-y-4">
-                <!-- Comments will be dynamically added here -->
-            </div>
+        </div>
+        <h2 class="text-2xl font-bold tracking-tight">댓글 목록</h2>
+        <div id="comments" class="space-y-4">
+            <!-- Comments will be dynamically added here -->
         </div>
     </div>
 </div>
@@ -106,7 +134,35 @@
     function formatTime(date) {
         return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            // 토큰이 있으면 로그아웃 표시
+            document.getElementById('logoutButton').style.display = 'block';
+            document.getElementById('loginButton').style.display = 'none';
+        } else {
+            // 토큰이 없으면 로그인 표시
+            document.getElementById('logoutButton').style.display = 'none';
+            document.getElementById('loginButton').style.display = 'block';
+        }
+    });
+
+    // 로그아웃
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        localStorage.removeItem('token');
+        alert('로그아웃 되었습니다')
+        location.reload();
+    });
+
+    document.getElementById('loginButton').addEventListener('click', function () {
+        window.location.href = 'login.html';
+    });
+
+    document.getElementById('signupButton').addEventListener('click', function () {
+        window.location.href = 'signup.html';
+    });
 </script>
 </body>
-
 </html>
