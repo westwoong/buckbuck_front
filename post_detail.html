@@ -34,6 +34,12 @@
             max-height: 800px; /* 최대 높이 */
             overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
         }
+
+        #proposalCost {
+            height: 40px; /* Adjust height as needed */
+            padding: 0.5rem; /* Adjust padding as needed */
+            font-size: 1rem; /* Adjust font size as needed */
+        }
     </style>
 </head>
 
@@ -83,6 +89,17 @@
         </div>
     </div>
 </div>
+
+<!-- 댓글 작성 입력 폼 -->
+<div class="mt-4 px-4">
+    <label for="commentContent" class="block text-sm font-medium text-gray-700">댓글 내용</label>
+    <textarea id="commentContent" name="commentContent" rows="3" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"></textarea>
+</div>
+<div class="mt-4 px-4">
+    <label for="proposalCost" class="block text-sm font-medium text-gray-700">제안 금액</label>
+    <input type="number" id="proposalCost" name="proposalCost" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" min="0" max="100000" step="5000">
+</div>
+<button onclick="postComment()" class="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-md">댓글 작성</button>
 
 <script>
     window.onload = function () {
@@ -179,6 +196,63 @@
     document.getElementById('signupButton').addEventListener('click', function () {
         window.location.href = 'signup.html';
     });
+
+    // 댓글 작성
+    function postComment() {
+        const postId = window.location.search.split('=')[1]; // URL에서 게시물 ID 가져오기
+        const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            return;
+        }
+
+        const content = document.getElementById('commentContent').value; // 댓글 내용 가져오기
+        let proposalCost = document.getElementById('proposalCost').value; // 제안 금액 가져오기
+
+        // 입력된 값이 정수가 아닌 경우 경고 메시지 표시
+        if (!Number.isInteger(+proposalCost)) {
+            alert('제안 금액은 정수로 입력해야 합니다.');
+            return;
+        }
+
+        // 문자열을 정수로 변환하여 소수점을 제거
+        proposalCost = parseInt(proposalCost);
+
+        // 제안 금액이 유효한지 확인
+        if (proposalCost < 0 || proposalCost > 100000) {
+            alert('0에서 100,000 사이의 값을 입력하세요.');
+            return;
+        }
+
+        // 댓글 작성 요청 보내기
+        fetch(`http://localhost:3000/comments/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                content: content,
+                proposalCost: proposalCost
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('댓글 작성에 실패했습니다.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('댓글이 성공적으로 작성되었습니다.');
+                location.reload(); // 페이지 새로고침
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
+
 </script>
 </body>
 
