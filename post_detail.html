@@ -106,7 +106,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
 
-        fetch(`http://localhost:3000/posts/${postId}`)
+        fetch(`https://api.buckbuck.quest/posts/${postId}`)
             .then(response => response.json())
             .then(data => {
                 const postData = data.post;
@@ -226,7 +226,7 @@
         }
 
         // 댓글 작성 요청 보내기
-        fetch(`http://localhost:3000/comments/${postId}`, {
+        fetch(`https://api.buckbuck.quest/comments/${postId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
