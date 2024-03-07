@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuckBuck</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/forum.css">
     <style>
         /* Add subtle border between title and content */
         .title-content-divider,
@@ -245,14 +246,68 @@
             })
             .then(data => {
                 alert('댓글이 성공적으로 작성되었습니다.');
-                location.reload(); // 페이지 새로고침
+
+                // 댓글이 성공적으로 작성된 후 해당 게시물을 다시 불러오기
+                fetch(`https://api.buckbuck.quest/posts/${postId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // 게시물을 다시 로드하고 내용을 업데이트
+                        const postData = data.post;
+
+                        // Fill in post details
+                        document.getElementById('title').innerText = postData.title;
+
+                        const createdAt = new Date(postData.createdAt);
+
+                        document.getElementById('content').innerHTML = '<p>' + postData.content + '</p>';
+                        document.getElementById('cost').innerText = postData.cost;
+                        document.getElementById('level').innerText = postData.level;
+                        document.getElementById('createdAt').innerText = formatDate(createdAt);
+                        document.getElementById('createdAtDetails').innerText = formatDate(createdAt);
+
+                        // Fill in comments
+                        const commentsContainer = document.getElementById('comments');
+                        commentsContainer.innerHTML = ''; // 댓글 컨테이너 초기화
+
+                        postData.comments.forEach(comment => {
+                            const commentDiv = document.createElement('div');
+                            commentDiv.classList.add('bg-white', 'rounded-lg', 'p-4', 'flex', 'flex-col', 'space-y-2');
+
+                            const commentContent = document.createElement('div');
+                            const username = document.createElement('h3');
+                            username.classList.add('text-lg', 'font-semibold');
+                            username.innerText = comment.nickName;
+                            const userComment = document.createElement('p');
+                            userComment.classList.add('text-sm', 'text-gray-500', 'dark:text-gray-400');
+                            userComment.innerText = comment.content;
+
+                            const proposalCost = document.createElement('span');
+                            proposalCost.classList.add('text-sm', 'font-semibold', 'text-gray-500');
+                            proposalCost.innerText = ' | 제안 금액: ' + comment.proposalCost;
+
+                            const createdAt = new Date(comment.createdAt);
+                            const createdDate = formatDate(createdAt);
+                            const createdTime = formatTime(createdAt);
+                            const commentTime = document.createElement('span');
+                            commentTime.classList.add('text-sm', 'text-gray-500', 'dark:text-gray-400');
+                            commentTime.innerText = createdDate + ' ' + createdTime;
+
+                            commentContent.appendChild(username);
+                            commentContent.appendChild(userComment);
+                            commentContent.appendChild(proposalCost);
+
+                            commentDiv.appendChild(commentContent);
+                            commentDiv.appendChild(commentTime);
+
+                            commentsContainer.appendChild(commentDiv);
+                        });
+                    })
+                    .catch(error => alert('게시물을 다시 불러오는 도중 오류가 발생했습니다.'));
             })
             .catch(error => {
                 alert(error.message);
             });
     }
-
-
 </script>
 </body>
 
