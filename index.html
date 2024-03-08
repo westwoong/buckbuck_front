@@ -34,6 +34,32 @@
         .write-post-button button:hover {
             background-color: #0056b3;
         }
+
+        /* 페이지네이션 스타일 */
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination .disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -65,23 +91,58 @@
     </div>
 </div>
 
+<!-- 페이지네이션 -->
+<div class="pagination">
+    <button id="prevPage">이전</button>
+    <span id="currentPage">1</span>
+    <button id="nextPage">다음</button>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const token = localStorage.getItem('token');
+        const currentPage = document.getElementById('currentPage');
+        let current = 1; // 현재 페이지 번호
 
-        if (token) {
-            // 토큰이 있으면 로그아웃 표시
-            document.getElementById('logoutButton').style.display = 'block';
-            document.getElementById('loginButton').style.display = 'none';
-        } else {
-            // 토큰이 없으면 로그인 표시
-            document.getElementById('logoutButton').style.display = 'none';
-            document.getElementById('loginButton').style.display = 'block';
+        function updatePosts(page) {
+            fetch(`https://api.buckbuck.quest/posts?page=${page}`)
+                .then(response => response.json())
+                .then(data => {
+                    const postList = document.getElementById('postList');
+                    data.posts.sort((a, b) => b.id - a.id);
+                    postList.innerHTML = '';
+                    data.posts.forEach(post => {
+                        const postItem = document.createElement('div');
+                        postItem.classList.add('forum-post');
+                        const createdAt = new Date(post.createdAt);
+                        const createdDate = `${createdAt.getFullYear()}.${(createdAt.getMonth() + 1).toString().padStart(2, '0')}.${createdAt.getDate().toString().padStart(2, '0')}`;
+                        const createdTime = `${createdAt.getHours().toString().padStart(2, '0')}:${createdAt.getMinutes().toString().padStart(2, '0')}`;
+                        postItem.innerHTML = `
+                            <div class="id">${post.id}</div>
+                            <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
+                            <div class="writer">${post.nickName}</div>
+                            <div class="date">${createdDate} ${createdTime}</div>
+                        `;
+                        postList.appendChild(postItem);
+                    });
+                })
+                .catch(error => alert('게시글을 불러오지 못했습니다.'));
+            currentPage.textContent = page; // 현재 페이지 번호 업데이트
         }
 
-        // 게시글 목록 가져오기
-        getPosts(1); // 첫 번째 페이지를 가져옴
+        document.getElementById('prevPage').addEventListener('click', function () {
+            if (current > 1) {
+                current -= 1;
+                updatePosts(current);
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', function () {
+            current += 1;
+            updatePosts(current); // 현재 페이지 설정을 기반으로 게시글을 가져옴
+        });
+
+        updatePosts(1); // 초기 페이지 로드
     });
 
     function getPosts(page) {
