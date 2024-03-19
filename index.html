@@ -149,6 +149,9 @@
         fetch(`https://api.buckbuck.quest/posts?page=${page}`)
             .then(response => response.json())
             .then(data => {
+                if (data.length === 0) {
+                    alert('Test');
+                }
                 const postList = document.getElementById('postList');
                 // 내림차순으로 정렬
                 data.posts.sort((a, b) => b.id - a.id);
@@ -192,11 +195,9 @@
         // 로그인 여부 확인
         const isLoggedIn = localStorage.getItem('token');
         if (!isLoggedIn) {
-            // 로그인되어 있지 않으면 알림 메시지 표시
             alert('로그인이 필요합니다');
             window.location.href = 'login.html';
         } else {
-            // 로그인되어 있으면 의뢰 작성 페이지로 이동
             window.location.href = 'write_post.html';
         }
     });
