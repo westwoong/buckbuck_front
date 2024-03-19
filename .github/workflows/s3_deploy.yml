@@ -21,4 +21,5 @@ jobs:
           aws-region: ap-northeast-2
 
       - run: |
-          aws s3 sync . s3://buckbuck-front
+          aws s3 sync . s3://buckbuck-front \
+            --exclude ".*"
