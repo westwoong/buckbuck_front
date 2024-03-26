@@ -58,7 +58,9 @@
                 window.location.href = 'index.html';
             })
             .catch(error => {
+                if(error){
                 alert('로그인 에러! 서버 관리자에게 문의 바랍니다.');
+                }
             });
     });
 </script>

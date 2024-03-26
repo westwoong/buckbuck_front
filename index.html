@@ -101,6 +101,44 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const loginButton = document.getElementById('loginButton');
+        const signupButton = document.getElementById('signupButton');
+        const logoutButton = document.getElementById('logoutButton');
+
+        // 페이지 로드 시 로그인 상태 확인
+        updateLoginStatus();
+
+        // 로그인 상태 업데이트
+        function updateLoginStatus() {
+            const isLoggedIn = localStorage.getItem('token');
+            if (isLoggedIn) {
+                loginButton.style.display = 'none';
+                signupButton.style.display = 'none';
+                logoutButton.style.display = 'block';
+            } else {
+                loginButton.style.display = 'block';
+                signupButton.style.display = 'block';
+                logoutButton.style.display = 'none';
+            }
+        }
+
+        // 로그아웃 버튼 클릭 시 처리
+        logoutButton.addEventListener('click', function () {
+            localStorage.removeItem('token');
+            alert('로그아웃 되었습니다');
+            location.reload();
+        });
+
+        // 로그인 버튼 클릭 시 처리
+        loginButton.addEventListener('click', function () {
+            window.location.href = 'login.html';
+        });
+
+        // 회원가입 버튼 클릭 시 처리
+        signupButton.addEventListener('click', function () {
+            window.location.href = 'signup.html';
+        });
+
         const currentPage = document.getElementById('currentPage');
         let current = 1; // 현재 페이지 번호
 
@@ -118,11 +156,11 @@
                         const createdDate = `${createdAt.getFullYear()}.${(createdAt.getMonth() + 1).toString().padStart(2, '0')}.${createdAt.getDate().toString().padStart(2, '0')}`;
                         const createdTime = `${createdAt.getHours().toString().padStart(2, '0')}:${createdAt.getMinutes().toString().padStart(2, '0')}`;
                         postItem.innerHTML = `
-                            <div class="id">${post.id}</div>
-                            <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
-                            <div class="writer">${post.nickName}</div>
-                            <div class="date">${createdDate} ${createdTime}</div>
-                        `;
+                        <div class="id">${post.id}</div>
+                        <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
+                        <div class="writer">${post.nickName}</div>
+                        <div class="date">${createdDate} ${createdTime}</div>
+                    `;
                         postList.appendChild(postItem);
                     });
                 })
@@ -145,51 +183,6 @@
         updatePosts(1); // 초기 페이지 로드
     });
 
-    function getPosts(page) {
-        fetch(`https://api.buckbuck.quest/posts?page=${page}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length === 0) {
-                    alert('Test');
-                }
-                const postList = document.getElementById('postList');
-                // 내림차순으로 정렬
-                data.posts.sort((a, b) => b.id - a.id);
-                postList.innerHTML = ''; // 이전 데이터를 지움
-                data.posts.forEach(post => {
-                    const postItem = document.createElement('div');
-                    postItem.classList.add('forum-post');
-                    const createdAt = new Date(post.createdAt);
-                    const createdDate = `${createdAt.getFullYear()}.${(createdAt.getMonth() + 1).toString().padStart(2, '0')}.${createdAt.getDate().toString().padStart(2, '0')}`;
-                    const createdTime = `${createdAt.getHours().toString().padStart(2, '0')}:${createdAt.getMinutes().toString().padStart(2, '0')}`;
-                    postItem.innerHTML = `
-                    <div class="id">${post.id}</div>
-                    <div class="title"><a href="post_detail.html?id=${post.id}">${post.title}</a></div>
-                    <div class="writer">${post.nickName}</div>
-                    <div class="date">${createdDate}  ${createdTime}</div>
-                `;
-                    postList.appendChild(postItem);
-                });
-            })
-            .catch(error => alert('게시글을 불러오지 못했습니다.'));
-    }
-
-
-    // 로그아웃
-    document.getElementById('logoutButton').addEventListener('click', function () {
-        localStorage.removeItem('token');
-        alert('로그아웃 되었습니다')
-        location.reload();
-    });
-
-    document.getElementById('loginButton').addEventListener('click', function () {
-        window.location.href = 'login.html';
-    });
-
-    document.getElementById('signupButton').addEventListener('click', function () {
-        window.location.href = 'signup.html';
-    });
-
     // 의뢰 작성 버튼 클릭 시 write_post.html로 이동
     document.getElementById('writePostButton').addEventListener('click', function () {
         // 로그인 여부 확인
@@ -201,6 +194,7 @@
             window.location.href = 'write_post.html';
         }
     });
+
 </script>
 
 </body>
